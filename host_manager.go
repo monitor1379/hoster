@@ -3,7 +3,7 @@ package hoster
 /*
  * @Date: 2020-11-29 14:01:23
  * @LastEditors: monitor1379
- * @LastEditTime: 2020-11-29 15:17:55
+ * @LastEditTime: 2020-11-29 16:12:58
  */
 
 import (
@@ -15,13 +15,14 @@ import (
 	"runtime"
 	"strings"
 	"sync"
+
+	"github.com/monitor1379/hoster/pkg/linesep"
 )
 
 type HostManager struct {
 	hostFilePath string
 	mappings     []*Mapping
-
-	mu *sync.RWMutex
+	mu           *sync.RWMutex
 }
 
 // New returns a `*HostManager` with given host file path.
@@ -53,18 +54,28 @@ func Default() (*HostManager, error) {
 		hostFilePath = "/etc/hosts"
 
 	case "windows":
+		// Some Windows operating system did not install on "C:" partition,
+		// use %windir% to get system partition is more safely.
 		winDirPath := os.Getenv("windir")
 		if winDirPath == "" {
 			return nil, errors.New("can not found environment variable \"windir\"")
 		}
-		hostFilePath = filepath.Join(winDirPath, "Systems32", "drivers", "etc", "hosts")
+		hostFilePath = filepath.Join(winDirPath, "System32", "drivers", "etc", "hosts")
 
 	// TODO(monitor1379): support more os platforms.
 	default:
 		return nil, fmt.Errorf("unsupported os type: \"%s\"", runtime.GOOS)
 	}
 
-	return New(hostFilePath)
+	h, err := New(hostFilePath)
+	if err != nil {
+		return nil, err
+	}
+	return h, nil
+}
+
+func (h *HostManager) HostFilePath() string {
+	return h.hostFilePath
 }
 
 func (h *HostManager) Backup(backupHostFilePath string) error {
@@ -185,12 +196,12 @@ func (h *HostManager) String() string {
 	for _, mapping := range h.mappings {
 		s = append(s, mapping.Encode())
 	}
-	return strings.Join(s, "\n")
+	return strings.Join(s, linesep.DefaultLineSeperator)
 }
 
 func parse(data []byte) ([]*Mapping, error) {
 	mappings := make([]*Mapping, 0)
-	for _, line := range strings.Split(string(data), "\n") {
+	for _, line := range strings.Split(string(data), linesep.DefaultLineSeperator) {
 		mapping, err := Decode(line)
 		if err != nil {
 			return nil, err
@@ -217,7 +228,7 @@ func flush(hostFilePath string, mappings []*Mapping) error {
 	for _, mapping := range mappings {
 		s = append(s, mapping.Encode())
 	}
-	return ioutil.WriteFile(hostFilePath, []byte(strings.Join(s, "\n")), os.ModePerm)
+	return ioutil.WriteFile(hostFilePath, []byte(strings.Join(s, linesep.DefaultLineSeperator)), os.ModePerm)
 }
 
 func Flush(hostFilePath string, mappings []*Mapping) error {
