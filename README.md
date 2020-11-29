@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-11-29 14:00:53
  * @LastEditors: monitor1379
- * @LastEditTime: 2020-11-29 16:43:41
+ * @LastEditTime: 2020-11-29 16:49:02
 -->
 # Hoster: A Golang library for manipulating your host file
 
@@ -15,6 +15,9 @@ go get -u -v github.com/monitor1379/hoster
 
 
 ## Usage
+
+
+### Create
 
 Create a `*HostManager` and print the content of host file:
 
@@ -48,6 +51,8 @@ func main() {
 
 ```
 
+
+### Lookup
 
 Assuming your host file content is:
 ```bash
@@ -94,7 +99,9 @@ func main() {
 
 
 
-Add and Delete:
+### Set and Delete
+
+
 ```golang
 package main
 
@@ -156,6 +163,31 @@ func main() {
 	// # The following lines are desirable for IPv6 capable hosts
 	// ::1     ip6-localhost   ip6-loopback
 
+}
+
+```
+
+### Backup
+
+backup host file to a new path:
+```golang
+package main
+
+import (
+	"github.com/monitor1379/hoster"
+)
+
+func main() {
+	hm, err := hoster.New("./hosts.txt")
+	if err != nil {
+		panic(err)
+	}
+
+	// note that after backup, hm is still managing "./hosts.txt"
+	err = hm.Backup("./hosts-backup.txt")
+	if err != nil {
+		panic(err)
+	}
 }
 
 ```

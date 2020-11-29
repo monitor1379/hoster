@@ -1,0 +1,8 @@
+127.0.0.1	localhost
+
+192.168.10.10	hoster-1.k8s.svc.cluster.local	hoster-2.k8s.svc.cluster.local	# my kubernetes services
+192.168.10.11	other-app.example.com
+
+
+# The following lines are desirable for IPv6 capable hosts
+::1	ip6-localhost	ip6-loopback
