@@ -1,0 +1,5 @@
+127.0.0.1	localhost	test1.domain.com
+
+127.0.0.2	test2.domain.com	test3.domain.com
+
+127.0.1.1	red-coast-base	# added by monitor1379
