@@ -1,9 +1,11 @@
 <!--
  * @Date: 2020-11-29 14:00:53
  * @LastEditors: monitor1379
- * @LastEditTime: 2020-11-29 16:49:02
+ * @LastEditTime: 2020-11-29 17:02:40
 -->
 # Hoster: A Golang library for manipulating your host file
+
+![logo](docs/logo/logo.png)
 
 Hoster is a cross-platform operating system host file management library.
 
