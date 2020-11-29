@@ -3,7 +3,7 @@ package hoster
 /*
  * @Date: 2020-11-29 14:01:23
  * @LastEditors: monitor1379
- * @LastEditTime: 2020-11-29 16:39:47
+ * @LastEditTime: 2020-11-29 22:38:29
  */
 
 import (
@@ -46,6 +46,19 @@ func New(hostFilePath string) (*HostManager, error) {
 
 // Default returns a `*HostManager` with system host file path.
 func Default() (*HostManager, error) {
+	hostFilePath, err := GetSysHostFilePath()
+	if err != nil {
+		return nil, err
+	}
+
+	h, err := New(hostFilePath)
+	if err != nil {
+		return nil, err
+	}
+	return h, nil
+}
+
+func GetSysHostFilePath() (string, error) {
 	var hostFilePath string
 
 	switch runtime.GOOS {
@@ -58,20 +71,16 @@ func Default() (*HostManager, error) {
 		// use %windir% to get system partition is more safely.
 		winDirPath := os.Getenv("windir")
 		if winDirPath == "" {
-			return nil, errors.New("can not found environment variable \"windir\"")
+			return "", errors.New("can not found environment variable \"windir\"")
 		}
 		hostFilePath = filepath.Join(winDirPath, "System32", "drivers", "etc", "hosts")
 
 	// TODO(monitor1379): support more os platforms.
 	default:
-		return nil, fmt.Errorf("unsupported os type: \"%s\"", runtime.GOOS)
+		return "", fmt.Errorf("unsupported os type: \"%s\"", runtime.GOOS)
 	}
 
-	h, err := New(hostFilePath)
-	if err != nil {
-		return nil, err
-	}
-	return h, nil
+	return hostFilePath, nil
 }
 
 func (h *HostManager) HostFilePath() string {
@@ -197,11 +206,27 @@ func (h *HostManager) DeleteHost(host string) error {
 }
 
 func (h *HostManager) String() string {
+	h.mu.RLock()
+	defer h.mu.RUnlock()
+
 	s := make([]string, 0)
 	for _, mapping := range h.mappings {
 		s = append(s, mapping.Encode())
 	}
 	return strings.Join(s, linesep.DefaultLineSeperator)
+}
+
+func (h *HostManager) Mappings() []*Mapping {
+	h.mu.RLock()
+	defer h.mu.RUnlock()
+
+	mappings := make([]*Mapping, 0)
+	for _, mapping := range h.mappings {
+		m := new(Mapping)
+		*m = *mapping
+		mappings = append(mappings, m)
+	}
+	return mappings
 }
 
 func parse(data []byte) ([]*Mapping, error) {

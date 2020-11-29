@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-11-29 14:00:53
  * @LastEditors: monitor1379
- * @LastEditTime: 2020-11-29 22:16:55
+ * @LastEditTime: 2020-11-29 23:02:29
 -->
 
 
@@ -11,14 +11,14 @@
 Hoster is a cross-platform operating system host file management library written in Go.
 
 
-[Features](#features) | [Installation](#installation) | [Usage](#usage)
+[Features](#features) | [Installation](#installation) | [Usage](#usage) | [CLI](#cli)
 
 ## Features
 
 - Cross platform: support Linux / Windows / macOS(darwin)
 - Lookup by address(IPv4, IPv6 etc.) and host(domains).
 - Host file backup and duplication.
-
+- CLI `cmd/hoster` for manipulating host file in terminal.
 
 ## Installation
 
@@ -204,3 +204,58 @@ func main() {
 }
 
 ```
+
+
+# CLI
+
+`cmd/hoster` is a command-line program for manipulating host file in terminal.
+
+common methods:
+- `hoster version`
+- `hoster list [--file <host-file-path>]`
+- `hoster lookup [--file <host-file-path>]  [--address <address>] [--host <host>]`
+- `hoster set [--file <host-file-path>]  [--address <address>] [--host <host>] [--comment <comment>`
+
+
+```bash
+> hoster
+
+Hoster is a cross-platform operating system host file management library written in Go.
+
+Usage:
+  hoster [command]
+
+Available Commands:
+  help        Help about any command
+  list        List address-host mappings
+  lookup      lookup by address or host
+  set         Add a address-host mapping
+  version     Print the version of hoster
+
+Flags:
+  -f, --file string   specify a host file path (default "/etc/hosts")
+  -h, --help          help for hoster
+
+Use "hoster [command] --help" for more information about a command.
+```
+
+
+List command:
+
+```bash
+> hoster list
+
++-----------+-----------------+
+|  ADDRESS  |      HOST       |
++-----------+-----------------+
+| 127.0.0.1 | localhost       |
+| 127.0.1.1 | red-coast-base  |
+| ::1       | ip6-localhost   |
+| ::1       | ip6-loopback    |
+| fe00::0   | ip6-localnet    |
+| ff00::0   | ip6-mcastprefix |
+| ff02::1   | ip6-allnodes    |
+| ff02::2   | ip6-allrouters  |
++-----------+-----------------+
+```
+
