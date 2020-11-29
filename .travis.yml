@@ -3,6 +3,5 @@ arch:
    - amd64
 go:
   - 1.x
-  - master
   
 script: go test -v ./...
