@@ -1,12 +1,12 @@
 <!--
  * @Date: 2020-11-29 14:00:53
  * @LastEditors: monitor1379
- * @LastEditTime: 2020-11-29 23:02:29
+ * @LastEditTime: 2020-11-29 23:12:11
 -->
 
 
 <img src="./docs/logo/logo-with-name.png" style="height:100px" alt="hoster" height="100px"/>
-
+<img src="https://travis-ci.org/monitor1379/hoster.svg" />
 
 Hoster is a cross-platform operating system host file management library written in Go.
 
