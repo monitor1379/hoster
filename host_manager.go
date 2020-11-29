@@ -3,7 +3,7 @@ package hoster
 /*
  * @Date: 2020-11-29 14:01:23
  * @LastEditors: monitor1379
- * @LastEditTime: 2020-11-29 16:12:58
+ * @LastEditTime: 2020-11-29 16:39:47
  */
 
 import (
@@ -86,7 +86,6 @@ func (h *HostManager) Backup(backupHostFilePath string) error {
 }
 
 func (h *HostManager) Duplicate(newHostFilePath string) (*HostManager, error) {
-
 	h.mu.Lock()
 	defer h.mu.Unlock()
 	err := flush(newHostFilePath, h.mappings)
@@ -145,13 +144,16 @@ func (h *HostManager) Set(host, address, comment string) error {
 
 	newMappings := make([]*Mapping, 0)
 	for _, mapping := range h.mappings {
+		if mapping.IsEmptyLine() || mapping.IsOnlyComment() {
+			newMappings = append(newMappings, mapping)
+			continue
+		}
+
 		diffHosts, _ := diffset(mapping.Hosts, []string{host})
 		if len(diffHosts) != 0 {
 			mapping.Hosts = diffHosts
-		} else {
-			continue
+			newMappings = append(newMappings, mapping)
 		}
-		newMappings = append(newMappings, mapping)
 	}
 	newMappings = append(newMappings, &Mapping{
 		Address: address,
@@ -173,13 +175,16 @@ func (h *HostManager) DeleteHost(host string) error {
 
 	newMappings := make([]*Mapping, 0)
 	for _, mapping := range h.mappings {
+		if mapping.IsEmptyLine() || mapping.IsOnlyComment() {
+			newMappings = append(newMappings, mapping)
+			continue
+		}
+
 		diffHosts, _ := diffset(mapping.Hosts, []string{host})
 		if len(diffHosts) != 0 {
 			mapping.Hosts = diffHosts
-		} else {
-			continue
+			newMappings = append(newMappings, mapping)
 		}
-		newMappings = append(newMappings, mapping)
 	}
 
 	h.mappings = newMappings

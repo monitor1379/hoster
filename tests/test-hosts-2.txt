@@ -1,3 +1,5 @@
 127.0.0.1	localhost	   test.domain.com test1.domain.com
+
 127.0.0.2	test2.domain.com	test3.domain.com
+
 127.0.0.3	test4.domain.com

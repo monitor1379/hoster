@@ -3,7 +3,7 @@ package hoster
 /*
  * @Date: 2020-11-29 14:03:49
  * @LastEditors: monitor1379
- * @LastEditTime: 2020-11-29 14:12:30
+ * @LastEditTime: 2020-11-29 16:39:06
  */
 
 import (
@@ -63,6 +63,14 @@ func (m Mapping) Encode() string {
 		s = append(s, m.Comment)
 	}
 	return strings.Join(s, "\t")
+}
+
+func (m Mapping) IsEmptyLine() bool {
+	return m.Address == "" && len(m.Hosts) == 0 && m.Comment == ""
+}
+
+func (m Mapping) IsOnlyComment() bool {
+	return m.Address == "" && len(m.Hosts) == 0 && m.Comment != ""
 }
 
 func (m Mapping) String() string {
