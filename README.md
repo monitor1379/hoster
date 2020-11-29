@@ -1,19 +1,24 @@
 <!--
  * @Date: 2020-11-29 14:00:53
  * @LastEditors: monitor1379
- * @LastEditTime: 2020-11-29 22:09:52
+ * @LastEditTime: 2020-11-29 22:16:55
 -->
 
 
 <img src="./docs/logo/logo-with-name.png" style="height:100px" alt="hoster" height="100px"/>
 
-<!-- <img src="https://raw.githubusercontent.com/gohugoio/gohugoioTheme/master/static/images/hugo-logo-wide.svg?sanitize=true" alt="Hugo" width="565"> -->
+
+Hoster is a cross-platform operating system host file management library written in Go.
 
 
+[Features](#features) | [Installation](#installation) | [Usage](#usage)
 
-# Hoster: A Golang library for manipulating your host file
+## Features
 
-Hoster is a cross-platform operating system host file management library.
+- Cross platform: support Linux / Windows / macOS(darwin)
+- Lookup by address(IPv4, IPv6 etc.) and host(domains).
+- Host file backup and duplication.
+
 
 ## Installation
 
