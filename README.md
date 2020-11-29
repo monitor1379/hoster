@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-11-29 14:00:53
  * @LastEditors: monitor1379
- * @LastEditTime: 2020-11-29 23:12:11
+ * @LastEditTime: 2020-11-29 23:21:07
 -->
 
 
@@ -22,6 +22,11 @@ Hoster is a cross-platform operating system host file management library written
 
 ## Installation
 
+Requirements: 
+- Golang version v1.13.0 (minimum)
+
+
+Installation:
 ```
 go get -u -v github.com/monitor1379/hoster
 ```
