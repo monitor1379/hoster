@@ -14,7 +14,7 @@ import (
 )
 
 func main() {
-	// create a *HostManger
+	// create a *HostManager
 	hm, err := hoster.Default()
 	if err != nil {
 		panic(err)
