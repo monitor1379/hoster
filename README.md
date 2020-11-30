@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-11-29 14:00:53
- * @LastEditors: monitor1379
- * @LastEditTime: 2020-11-29 23:21:07
+ * @LastEditors: aiden.deng (Zhenpeng Deng)
+ * @LastEditTime: 2020-11-30 22:24:16
 -->
 
 
@@ -51,7 +51,7 @@ import (
 )
 
 func main() {
-	// create a *HostManger
+	// create a *HostManager
 	hm, err := hoster.Default()
 	if err != nil {
 		panic(err)
